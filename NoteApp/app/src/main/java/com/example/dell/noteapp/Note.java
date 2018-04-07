@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class Note implements Serializable {
     private int id;
-//    private byte[] image;
     private String image;
     private String content;
     private Date time;
