@@ -80,7 +80,7 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
         datePicker();
         timePicker();
         getTimeCurrent();
-//        progressDialog=new ProgressDialog(this);
+        progressDialog=new ProgressDialog(this);
 
 
     }
