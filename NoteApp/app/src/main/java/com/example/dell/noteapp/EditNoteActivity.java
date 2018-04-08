@@ -59,6 +59,7 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     TextView txtlock;
+    String newpath,oldpath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,8 +86,8 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
     public void getNote(){
         Intent i=getIntent();
         note= (Note) i.getSerializableExtra("note");
-        String path=note.getImage();
-        Glide.with(this).load(path).into(imgSelect);
+        oldpath=note.getImage();
+        Glide.with(this).load(oldpath).into(imgSelect);
         Date date=note.getTime();
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String ngay=df.format(date);
@@ -186,8 +187,8 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
                     Date time=df.parse(date);
                     BitmapDrawable bitmapDrawable= (BitmapDrawable) imgSelect.getDrawable();
                     Bitmap bitmap=bitmapDrawable.getBitmap();
-                    String image=Utils.saveToInternalStorage(bitmap,System.currentTimeMillis()+"",EditNoteActivity.this);
-                    Note noteedit=new Note(image,edtContent.getText().toString(),time);
+                    newpath=Utils.saveToInternalStorage(bitmap,System.currentTimeMillis()+"",EditNoteActivity.this);
+                    Note noteedit=new Note(newpath,edtContent.getText().toString(),time);
                     noteedit.setId(note.getId());
                     controller.editNote(noteedit);
                     Intent intent=new Intent();

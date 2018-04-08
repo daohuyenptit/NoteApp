@@ -42,6 +42,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class AddActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,View.OnClickListener{
@@ -61,6 +62,7 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
     String image2;
     Uri uri;
     String path;
+    String time;
 
     @Override
     public boolean onSupportNavigateUp() {
@@ -90,13 +92,14 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
 
     }
     public void getTimeCurrent(){
-        Date date=new Date();
-        DateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String time=df.format(date);
-        DateFormat df1=new SimpleDateFormat("E, MMMM d, yyyy");
-        String t1=df1.format(date);
-        edtDate.setText(t1);
-        edtTime.setText(time.substring(11));
+        Date newdate=new Date();
+        SimpleDateFormat format = new SimpleDateFormat("E, MMMM d, yyyy 'at' hh:mm a", Locale.US);
+        String t1=format.format(newdate);
+        String [] str=t1.split("\\s");
+        String date=str[0]+" "+str[1]+" "+str[2]+" "+str[3]+" ";
+        String time=str[4]+" "+str[5]+" "+str[6];
+        edtDate.setText(date);
+        edtTime.setText(time);
     }
 
     private void ActionBar() {
@@ -299,11 +302,17 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
         @Override
         protected void onPostExecute(String aVoid) {
             super.onPostExecute(aVoid);
+            SimpleDateFormat format = new SimpleDateFormat("E, MMMM d, yyyy 'at' hh:mm a", Locale.US);
             SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String date = edtDate.getText().toString().trim() + " " + edtTime.getText().toString().trim();
             Date time = null;
             try {
-                time = df.parse(date);
+                if(date.contains("-")){
+                    time = df.parse(date);
+                }else{
+                    time=format.parse(date);
+                }
+
                 Note note = new Note(aVoid, edtContent.getText().toString(), time);
 //                Log.i("img",image1+"");
                 controller.insertNote(note);

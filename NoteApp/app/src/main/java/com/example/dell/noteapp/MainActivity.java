@@ -83,7 +83,10 @@ public class MainActivity extends AppCompatActivity {
             innitFaceBook();
             btnlogin.setVisibility(View.VISIBLE);
         }else if(pincode.equals("") && (!name.equals(""))){
-            startActivity(new Intent(MainActivity.this,NoteListActivity.class));
+            Intent intent=new Intent(MainActivity.this,NoteListActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
 
 
         }else if(!pincode.equals("") && (!name.equals(""))){

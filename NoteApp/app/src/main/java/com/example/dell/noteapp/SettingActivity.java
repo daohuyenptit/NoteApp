@@ -56,8 +56,8 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
     }
     private void ActionBar() {
         this.setSupportActionBar(toolbar);
-       // this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-       // getSupportActionBar().setDisplayShowHomeEnabled(true);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
     @Override
@@ -76,7 +76,8 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
             setLock();
 
 
-        }else if(!toggleButton.isChecked()){
+        }else
+            if(!toggleButton.isChecked()){
             Utils.savePinCode(SettingActivity.this,"savePin","");
         }
 

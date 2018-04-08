@@ -23,15 +23,34 @@
 
             </android.support.v7.widget.Toolbar>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_above="@+id/txtlock"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="17dp"
+                android:background="#696262" />
+
             <TextView
+                android:textColor="#6ac4c6"
+                android:padding="10dp"
+                android:layout_marginLeft="18dp"
                 android:id="@+id/txtlock"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/toggle"
                 android:layout_alignParentStart="true"
                 android:layout_marginBottom="38dp"
-                android:text="Smart Lock" />
+                android:text="Change Smart Lock" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/txt"
+                android:layout_marginTop="24dp"
+                android:background="#877777" />
 
             <TextView
                 android:id="@+id/txt"
@@ -43,7 +62,7 @@
                 android:layout_gravity="center"
                 android:layout_marginStart="31dp"
                 android:text="Enable PIN"
-                android:textColor="#d61717"
+                android:textColor="#63e6c5"
                 android:textSize="25sp"
                 android:textStyle="bold" />
 
@@ -59,6 +78,13 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginEnd="30dp"
                 android:checked="false" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_above="@+id/toggle"
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="21dp"
+                android:background="#7e7575" />
 
         </RelativeLayout>
         <android.support.design.widget.NavigationView
