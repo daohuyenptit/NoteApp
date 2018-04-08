@@ -26,10 +26,17 @@ import java.util.Date;
 public class NoteController extends SQLiteDataController {
     public NoteController(Context con) {
         super(con);
+        try {
+            this.createDataBase();
+            openDataBase();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
     public boolean insertNote(Note note) {
         try {
-            openDataBase();
+//            openDataBase();
             ContentValues contentValues=new ContentValues();
             contentValues.put("image",note.getImage());
             contentValues.put("content",note.getContent());
@@ -42,12 +49,12 @@ public class NoteController extends SQLiteDataController {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            close();
+//            close();
         }
         return false;
     }
     public void editNote(Note note){
-        openDataBase();
+//        openDataBase();
         ContentValues contentValues=new ContentValues();
         contentValues.put("image",note.getImage());
         contentValues.put("content",note.getContent());
@@ -60,20 +67,20 @@ public class NoteController extends SQLiteDataController {
     }
     public void deleteNote(int id){
         try{
-            openDataBase();
+//            openDataBase();
             database.delete("tblNote","id="+id,null);
 
         }catch (Exception e){
 
         }finally {
-            close();
+//            close();
         }
 
     }
     public ArrayList<Note> getAll(){
         ArrayList<Note> notes=new ArrayList<>();
         try {
-            openDataBase();
+//            openDataBase();
 
             Cursor cursor = database.rawQuery("Select * From tblNote", null);
             // Duyệt lấy ra các bản ghi
@@ -95,7 +102,7 @@ public class NoteController extends SQLiteDataController {
         } catch (ParseException e) {
             e.printStackTrace();
         } finally {
-            close();
+//            close();
         }
         Log.i("size",notes.size()+"");
         return notes;

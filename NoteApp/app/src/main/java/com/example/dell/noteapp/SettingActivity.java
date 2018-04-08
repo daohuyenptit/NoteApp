@@ -56,10 +56,19 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
     }
     private void ActionBar() {
         this.setSupportActionBar(toolbar);
-        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+       // this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return false;
+    }
 
     @Override
     public void onClick(View view) {
@@ -68,7 +77,7 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
 
 
         }else if(!toggleButton.isChecked()){
-            SharedPreference.savePinCode(SettingActivity.this,"savePin","");
+            Utils.savePinCode(SettingActivity.this,"savePin","");
         }
 
     }
@@ -85,7 +94,7 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                SharedPreference.savePinCode(SettingActivity.this,"savePin",input.getText().toString());
+                Utils.savePinCode(SettingActivity.this,"savePin",input.getText().toString());
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -103,7 +112,7 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_lock:
-                String pincode=SharedPreference.getPinCode(SettingActivity.this);
+                String pincode=Utils.getPinCode(SettingActivity.this);
                 PinCode.setPinCode(SettingActivity.this,pincode);
 
                 break;

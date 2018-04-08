@@ -31,8 +31,8 @@ public class PinCode
             public void onClick(DialogInterface dialogInterface, int i) {
                 if(input.getText().toString().equals(pincode)){
                     if(context1 instanceof MainActivity){
-                        InputMethodManager imm = (InputMethodManager)context1.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(input.getWindowToken(), 0);
+                        dismissKeyboard(context1,input);
+//
                         context1.startActivity(new Intent(context1,NoteListActivity.class));
 
                         dialogInterface.dismiss();
@@ -57,6 +57,8 @@ public class PinCode
     }
     public static void dismissKeyboard(Context context,EditText myEditText) {
         // Check if no view has focus:
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+         imm.hideSoftInputFromWindow(myEditText.getWindowToken(), 0);
 
     }
 }

@@ -122,7 +122,7 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
 
     }
 
-    public void getImage() {//day đau phải, lúc dấy c có click j đâu, c chọn ảnh từu thư viện xong hiên lên mà,ak
+    public void getImage() {
         imgSelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -270,37 +270,12 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
         }
         BitmapDrawable bitmapDrawable = (BitmapDrawable) imgSelect.getDrawable();
         Bitmap bitmap = bitmapDrawable.getBitmap();
-
-        //
-//        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-//        String date = edtDate.getText().toString().trim() + " " + edtTime.getText().toString().trim();
-//        Date time = null;
-//        try {
-//            time = df.parse(date);
-//            Note note = new Note(path, edtContent.getText().toString(), time);
-//            controller.insertNote(note);
-//
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        } catch (java.text.ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//
-//        Intent intent = new Intent();
-//        setResult(100, intent);
-//        finish();
-
-
         new MyAsyntask().execute(bitmap);
 
 
     }
      class MyAsyntask extends AsyncTask<Bitmap,Void,String>{
-//        String image;
-//        public MyAsyntask(String image) {
-//            this.image = image;
-//        }
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -310,11 +285,8 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
 
         @Override
         protected String  doInBackground(Bitmap... bitmap) {
-            String a=null;
             try{
-                a=saveToInternalStorage(bitmap[0],System.currentTimeMillis()+"");
-               Log.i("ido", saveToInternalStorage(bitmap[0],System.currentTimeMillis()+""));
-                return saveToInternalStorage(bitmap[0],System.currentTimeMillis()+"");
+                return Utils.saveToInternalStorage(bitmap[0],System.currentTimeMillis()+"",AddActivity.this);
 
             }catch (Exception e){
                 e.printStackTrace();
@@ -353,38 +325,13 @@ public class AddActivity extends AppCompatActivity implements NavigationView.OnN
 
     }
 
-    private String saveToInternalStorage(Bitmap bitmapImage,String profile){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-//        File directory = Environment.getDataDirectory();
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
 
-        // Create imageDir
-        File mypath=new File(directory,profile+".jpeg");
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (fos != null) {
-                    fos.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return mypath.getAbsolutePath();
-    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
             case R.id.nav_lock:
-                String pincode=SharedPreference.getPinCode(AddActivity.this);
+                String pincode=Utils.getPinCode(AddActivity.this);
                 PinCode.setPinCode(AddActivity.this,pincode);
                 break;
             case R.id.nav_setting:

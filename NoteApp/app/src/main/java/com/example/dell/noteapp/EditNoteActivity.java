@@ -85,12 +85,8 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
     public void getNote(){
         Intent i=getIntent();
         note= (Note) i.getSerializableExtra("note");
-//        byte[] image=note.getImage();
         String path=note.getImage();
         Glide.with(this).load(path).into(imgSelect);
-
-//        final Bitmap bitmap= BitmapFactory.decodeByteArray(image,0,image.length);
-//        imgSelect.setImageBitmap(bitmap);
         Date date=note.getTime();
         SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String ngay=df.format(date);
@@ -190,10 +186,7 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
                     Date time=df.parse(date);
                     BitmapDrawable bitmapDrawable= (BitmapDrawable) imgSelect.getDrawable();
                     Bitmap bitmap=bitmapDrawable.getBitmap();
-                    String image=saveToInternalStorage(bitmap,System.currentTimeMillis()+"");
-//                    ByteArrayOutputStream outputStream= new ByteArrayOutputStream();
-//                    bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream);
-//                    byte[] image=outputStream.toByteArray();
+                    String image=Utils.saveToInternalStorage(bitmap,System.currentTimeMillis()+"",EditNoteActivity.this);
                     Note noteedit=new Note(image,edtContent.getText().toString(),time);
                     noteedit.setId(note.getId());
                     controller.editNote(noteedit);
@@ -211,31 +204,6 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
         }
         return super.onOptionsItemSelected(item);
     }
-            private String saveToInternalStorage(Bitmap bitmapImage,String profile){
-                ContextWrapper cw = new ContextWrapper(getApplicationContext());
-                // path to /data/data/yourapp/app_data/imageDir
-                File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-
-                // Create imageDir
-                File mypath=new File(directory,profile+".jpg");
-                FileOutputStream fos = null;
-                try {
-                    fos = new FileOutputStream(mypath);
-                    // Use the compress method on the BitMap object to write image to the OutputStream
-                    bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        fos.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                Log.i("msg",mypath.getAbsolutePath()+"");
-                return mypath.getAbsolutePath();
-            }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){

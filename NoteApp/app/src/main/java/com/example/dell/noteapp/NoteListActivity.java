@@ -55,11 +55,12 @@ public class NoteListActivity extends AppCompatActivity {
         addControl();
         ActionBar();
         controller = new NoteController(this);
-        try {
-            controller.createDataBase();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            controller.createDataBase();
+//            controller.openDataBase();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         //swipe
         SwipeMenuCreator creator = new SwipeMenuCreator() {
             @Override
@@ -120,6 +121,15 @@ public class NoteListActivity extends AppCompatActivity {
                 return false;
             }
         });
+        lvNote.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Intent intent = new Intent(NoteListActivity.this, EditNoteActivity.class);
+                intent.putExtra("note", notes.get(i));
+                startActivityForResult(intent, 100);
+
+            }
+        });
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -131,7 +141,7 @@ public class NoteListActivity extends AppCompatActivity {
                         startActivity(new Intent(NoteListActivity.this, SettingActivity.class));
                         break;
                     case R.id.nav_lock:
-                        String pincode = SharedPreference.getPinCode(NoteListActivity.this);
+                        String pincode = Utils.getPinCode(NoteListActivity.this);
                         PinCode.setPinCode(NoteListActivity.this, pincode);
                         break;
 

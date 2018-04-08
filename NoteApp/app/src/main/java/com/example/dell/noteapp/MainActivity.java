@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         btnlogin.setReadPermissions(Arrays.asList("public_profile","email","user_birthday"));
         sharedPreferences= getSharedPreferences(MyPREFERENCES,MODE_PRIVATE);
         String name=sharedPreferences.getString("name","");
-        pincode=SharedPreference.getPinCode(MainActivity.this);
+        pincode=Utils.getPinCode(MainActivity.this);
 //
         if(pincode.equals("") && name.equals("")){
             innitFaceBook();

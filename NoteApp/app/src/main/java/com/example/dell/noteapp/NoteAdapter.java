@@ -91,7 +91,7 @@ public class NoteAdapter extends BaseAdapter  implements com.bumptech.glide.modu
         DateFormat df1=new SimpleDateFormat("E, MMMM d, yyyy");
         String t1=df1.format(date);
         viewHolder.txtDate.setText(t1);
-        viewHolder.txtTime.setText(time);
+        viewHolder.txtTime.setText(time.substring(11));
         viewHolder.txtContent.setText(note.getContent());
         final String path=note.getImage();
         // use library  to load image quickly
@@ -99,25 +99,15 @@ public class NoteAdapter extends BaseAdapter  implements com.bumptech.glide.modu
                 .with(context)
                 .load(path)
                 .into(viewHolder.imageView);
-//        viewHolder.imageView.setImageURI(Uri.parse(path));
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final android.support.v7.app.AlertDialog.Builder builder=new android.support.v7.app.AlertDialog.Builder(context);
-                ImageView img=new ImageView(context);
-                LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT);
-                img.setLayoutParams(lp);
-                img.setImageResource(R.drawable.image_default);
-//                Glide
-//                        .with(context)
-//                        .load(path)
-//                        .into(img);
-
-                builder.setView(img);
-                android.support.v7.app.AlertDialog alertDialog=builder.create();
-                alertDialog.show();
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.custom_dialog_image);
+                dialog.setTitle("load image");
+                ImageView imageView = dialog.findViewById(R.id.img_dialog);
+                Glide.with(context).load(path).into(imageView);
+                dialog.show();
             }
         });
 
