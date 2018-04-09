@@ -40,16 +40,15 @@ import java.util.Date;
  * Created by Dell on 3/30/2018.
  */
 
-public class NoteAdapter extends BaseAdapter  implements com.bumptech.glide.module.GlideModule
-{
-    ArrayList<Note> notes=new ArrayList<>();
+public class NoteAdapter extends BaseAdapter implements com.bumptech.glide.module.GlideModule {
+    ArrayList<Note> notes = new ArrayList<>();
     LayoutInflater inflater;
     Context context;
 
-    public NoteAdapter(ArrayList<Note> notes, LayoutInflater inflater,Context context) {
+    public NoteAdapter(ArrayList<Note> notes, LayoutInflater inflater, Context context) {
         this.notes = notes;
         this.inflater = inflater;
-        this.context=context;
+        this.context = context;
     }
 
     @Override
@@ -71,29 +70,26 @@ public class NoteAdapter extends BaseAdapter  implements com.bumptech.glide.modu
     public View getView(final int i, View view, ViewGroup viewGroup) {
         ViewHolder viewHolder;
         if (view == null) {
-            // If there's no view to re-use, inflate a brand new view for row
             viewHolder = new ViewHolder();
             view = inflater.inflate(R.layout.note_item, viewGroup, false);
             viewHolder.txtDate = view.findViewById(R.id.txtDate);
-            viewHolder.txtTime =  view.findViewById(R.id.txtTime);
-            viewHolder.txtContent=view.findViewById(R.id.txtcontent);
-            viewHolder.imageView=view.findViewById(R.id.image);
-            // Cache the viewHolder object inside the fresh view
+            viewHolder.txtTime = view.findViewById(R.id.txtTime);
+            viewHolder.txtContent = view.findViewById(R.id.txtcontent);
+            viewHolder.imageView = view.findViewById(R.id.image);
             view.setTag(viewHolder);
         } else {
-            // View is being recycled, retrieve the viewHolder object from tag
             viewHolder = (ViewHolder) view.getTag();
         }
-        final Note note=getItem(i);
-        DateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date date=note.getTime();
-        String time=df.format(date);
-        DateFormat df1=new SimpleDateFormat("E, MMMM d, yyyy");
-        String t1=df1.format(date);
+        final Note note = getItem(i);
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = note.getTime();
+        String time = df.format(date);
+        DateFormat df1 = new SimpleDateFormat("E, MMMM d, yyyy");
+        String t1 = df1.format(date);
         viewHolder.txtDate.setText(t1);
         viewHolder.txtTime.setText(time.substring(11));
         viewHolder.txtContent.setText(note.getContent());
-        final String path=note.getImage();
+        final String path = note.getImage();
         // use library  to load image quickly
         Glide
                 .with(context)
@@ -123,6 +119,7 @@ public class NoteAdapter extends BaseAdapter  implements com.bumptech.glide.modu
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
 
     }
+
     class ViewHolder {
         TextView txtDate;
         TextView txtTime;

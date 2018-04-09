@@ -120,7 +120,6 @@ public class SQLiteDataController extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // do nothing
     }
 
     public int deleteData_From_Table(String tbName) {

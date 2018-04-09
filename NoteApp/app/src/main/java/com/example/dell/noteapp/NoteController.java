@@ -34,17 +34,18 @@ public class NoteController extends SQLiteDataController {
         }
 
     }
+
     public boolean insertNote(Note note) {
         try {
 //            openDataBase();
-            ContentValues contentValues=new ContentValues();
-            contentValues.put("image",note.getImage());
-            contentValues.put("content",note.getContent());
-            SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-            Date date=note.getTime();
-            String ngay=df.format(date);
-            contentValues.put("time",ngay);
-            database.insert("tblNote",null,contentValues);
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("image", note.getImage());
+            contentValues.put("content", note.getContent());
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+            Date date = note.getTime();
+            String ngay = df.format(date);
+            contentValues.put("time", ngay);
+            database.insert("tblNote", null, contentValues);
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -53,48 +54,49 @@ public class NoteController extends SQLiteDataController {
         }
         return false;
     }
-    public void editNote(Note note){
+
+    public void editNote(Note note) {
 //        openDataBase();
-        ContentValues contentValues=new ContentValues();
-        contentValues.put("image",note.getImage());
-        contentValues.put("content",note.getContent());
-        contentValues.put("image",note.getImage());
-        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        Date date=note.getTime();
-        String ngay=df.format(date);
-        contentValues.put("time",ngay);
-        database.update("tblNote",contentValues,"id="+note.getId(),null);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("image", note.getImage());
+        contentValues.put("content", note.getContent());
+        contentValues.put("image", note.getImage());
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        Date date = note.getTime();
+        String ngay = df.format(date);
+        contentValues.put("time", ngay);
+        database.update("tblNote", contentValues, "id=" + note.getId(), null);
     }
-    public void deleteNote(int id){
-        try{
+
+    public void deleteNote(int id) {
+        try {
 //            openDataBase();
-            database.delete("tblNote","id="+id,null);
+            database.delete("tblNote", "id=" + id, null);
 
-        }catch (Exception e){
+        } catch (Exception e) {
 
-        }finally {
+        } finally {
 //            close();
         }
 
     }
-    public ArrayList<Note> getAll(){
-        ArrayList<Note> notes=new ArrayList<>();
+
+    public ArrayList<Note> getAll() {
+        ArrayList<Note> notes = new ArrayList<>();
         try {
 //            openDataBase();
 
             Cursor cursor = database.rawQuery("Select * From tblNote", null);
-            // Duyệt lấy ra các bản ghi
             while (cursor.moveToNext()) {
-                int id=cursor.getInt(0);
-//                byte[] image=cursor.getBlob(1);
-                String image=cursor.getString(1);
-                String content=cursor.getString(2);
+                int id = cursor.getInt(0);
+                String image = cursor.getString(1);
+                String content = cursor.getString(2);
                 String ngayTao = cursor.getString(3);
                 DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
                 Date ngayTaoDate = dateFormat.parse(ngayTao);
 
 
-                Note note=new Note(id,image,content,ngayTaoDate);
+                Note note = new Note(id, image, content, ngayTaoDate);
                 notes.add(note);
             }
         } catch (SQLException e) {
@@ -104,28 +106,25 @@ public class NoteController extends SQLiteDataController {
         } finally {
 //            close();
         }
-        Log.i("size",notes.size()+"");
+        Log.i("size", notes.size() + "");
         return notes;
     }
 
-//    public void createDataBase() {
+    //    public void createDataBase() {
 //        try {
 //            isCreatedDatabase();
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
 //    }
-    public void createDataBase() throws IOException{
+    public void createDataBase() throws IOException {
 
         boolean dbExist = checkExistDataBase();
         SQLiteDatabase db_Read = null;
 
-        if(dbExist){
-//do nothing - database already exist
-        }else{
+        if (dbExist) {
 
-//By calling this method and empty database will be created into the default system path
-//of your application so we are gonna be able to overwrite that database with our database.
+        } else {
             db_Read = this.getReadableDatabase();
             db_Read.close();
 

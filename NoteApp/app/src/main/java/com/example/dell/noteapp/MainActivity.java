@@ -58,14 +58,13 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     LoginButton btnlogin;
     String pincode;
-    int SPLASH_TIME_OUT=100;
+    int SPLASH_TIME_OUT = 100;
     private ProfilePictureView profilePictureView;
     private TextView email;
     private TextView gender;
     private TextView facebookName;
     SharedPreferences sharedPreferences;
-    public static final String MyPREFERENCES = "NoteApp" ;
-
+    public static final String MyPREFERENCES = "NoteApp";
 
 
     @Override
@@ -73,27 +72,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        btnlogin=findViewById(R.id.btnlogin);
-        btnlogin.setReadPermissions(Arrays.asList("public_profile","email","user_birthday"));
-        sharedPreferences= getSharedPreferences(MyPREFERENCES,MODE_PRIVATE);
-        String name=sharedPreferences.getString("name","");
-        pincode=Utils.getPinCode(MainActivity.this);
-//
-        if(pincode.equals("") && name.equals("")){
+        btnlogin = findViewById(R.id.btnlogin);
+        btnlogin.setReadPermissions(Arrays.asList("public_profile", "email", "user_birthday"));
+        sharedPreferences = getSharedPreferences(MyPREFERENCES, MODE_PRIVATE);
+        String name = sharedPreferences.getString("name", "");
+        pincode = Utils.getPinCode(MainActivity.this);
+        if (pincode.equals("") && name.equals("")) {
             innitFaceBook();
             btnlogin.setVisibility(View.VISIBLE);
-        }else if(pincode.equals("") && (!name.equals(""))){
-            Intent intent=new Intent(MainActivity.this,NoteListActivity.class);
+        } else if (pincode.equals("") && (!name.equals(""))) {
+            Intent intent = new Intent(MainActivity.this, NoteListActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
 
 
-        }else if(!pincode.equals("") && (!name.equals(""))){
-            PinCode.setPinCode(MainActivity.this,pincode);
+        } else if (!pincode.equals("") && (!name.equals(""))) {
+            Utils.setPinCode(MainActivity.this, pincode);
 
-        }else if(!pincode.equals("") && name.equals("")){
-            PinCode.setPinCode(MainActivity.this,pincode);
+        } else if (!pincode.equals("") && name.equals("")) {
+            Utils.setPinCode(MainActivity.this, pincode);
         }
 
     }
@@ -101,25 +99,25 @@ public class MainActivity extends AppCompatActivity {
     private void setProfileToView(JSONObject jsonObject) {
         try {
             //optString: dung để lấy dữ liệu và sẽ trae về null nếu trường đó không tồn tại
-            String email=jsonObject.optString("email");
-            String name=jsonObject.optString("name");
-            String gender=jsonObject.optString("gender");
+            String email = jsonObject.optString("email");
+            String name = jsonObject.optString("name");
+            String gender = jsonObject.optString("gender");
 
 
             // TODO
-            SharedPreferences.Editor editor=sharedPreferences.edit();
-            editor.putString("email",email);
-            editor.putString("name",name);
-            editor.putString("gender",gender);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("email", email);
+            editor.putString("name", name);
+            editor.putString("gender", gender);
             editor.commit();
 
-            startActivity(new Intent(MainActivity.this,NoteListActivity.class));
+            startActivity(new Intent(MainActivity.this, NoteListActivity.class));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void innitFaceBook(){
+    public void innitFaceBook() {
         callbackManager = CallbackManager.Factory.create();
         btnlogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                     @Override
@@ -143,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                     @Override
-                    public void onCancel () {
-//                        Log.d(TAG, "Login attempt cancelled.");
+                    public void onCancel() {
+
                     }
 
                     @Override
-                    public void onError (FacebookException e){
+                    public void onError(FacebookException e) {
                         e.printStackTrace();
                     }
                 }
@@ -158,11 +156,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode,resultCode,data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
 
     }
 }

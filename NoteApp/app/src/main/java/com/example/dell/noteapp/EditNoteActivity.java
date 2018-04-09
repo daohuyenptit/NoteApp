@@ -47,19 +47,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class EditNoteActivity extends AppCompatActivity implements View.OnClickListener, com.bumptech.glide.module.GlideModule
-        {
+public class EditNoteActivity extends AppCompatActivity implements View.OnClickListener, com.bumptech.glide.module.GlideModule {
     NoteController controller;
-    ImageView imgSelect,imgdelete;
-    ImageView imgcamera,imggallery;
-    EditText edtDate,edtTime,edtContent;
+    ImageView imgSelect, imgdelete;
+    ImageView imgcamera, imggallery;
+    EditText edtDate, edtTime, edtContent;
     Note note;
-    int REQUEST_CODE=20;
-    int REQUEST_CODE_GALLERY=21;
+    int REQUEST_CODE = 20;
+    int REQUEST_CODE_GALLERY = 21;
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     TextView txtlock;
-    String newpath,oldpath;
+    String newpath, oldpath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +72,7 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
         timePicker();
         imgdelete.setOnClickListener(this);
         imgSelect.setOnClickListener(this);
-        controller=new NoteController(EditNoteActivity.this);
+        controller = new NoteController(EditNoteActivity.this);
 
 
     }
@@ -83,49 +82,52 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
         super.onDestroy();
     }
 
-    public void getNote(){
-        Intent i=getIntent();
-        note= (Note) i.getSerializableExtra("note");
-        oldpath=note.getImage();
+    public void getNote() {
+        Intent i = getIntent();
+        note = (Note) i.getSerializableExtra("note");
+        oldpath = note.getImage();
         Glide.with(this).load(oldpath).into(imgSelect);
-        Date date=note.getTime();
-        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        String ngay=df.format(date);
-        edtDate.setText(ngay.substring(0,10));
+        Date date = note.getTime();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String ngay = df.format(date);
+        edtDate.setText(ngay.substring(0, 10));
         edtTime.setText(ngay.substring(11));
         edtContent.setText(note.getContent());
 
     }
 
-    public void addControl(){
-        edtContent=findViewById(R.id.edtContent);
-        edtTime=findViewById(R.id.edtTime);
-        edtDate=findViewById(R.id.edtDate);
-        imgSelect=findViewById(R.id.imgSelect);
-        imgdelete=findViewById(R.id.imageDelete);
-        toolbar=findViewById(R.id.toobar);
-        drawerLayout=findViewById(R.id.drawer);
-        imgcamera=findViewById(R.id.imgcamera);
-        imggallery=findViewById(R.id.imggallery);
+    public void addControl() {
+        edtContent = findViewById(R.id.edtContent);
+        edtTime = findViewById(R.id.edtTime);
+        edtDate = findViewById(R.id.edtDate);
+        imgSelect = findViewById(R.id.imgSelect);
+        imgdelete = findViewById(R.id.imageDelete);
+        toolbar = findViewById(R.id.toobar);
+        drawerLayout = findViewById(R.id.drawer);
+        imgcamera = findViewById(R.id.imgcamera);
+        imggallery = findViewById(R.id.imggallery);
         imggallery.setOnClickListener(this);
         imgcamera.setOnClickListener(this);
 
     }
-    public void ActionBar(){
+
+    public void ActionBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
-    public void getimgCamera(){
-        Intent intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(intent,REQUEST_CODE);
+
+    public void getimgCamera() {
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(intent, REQUEST_CODE);
 
     }
-    public void getimgGallery(){
-        Intent intent=new Intent(Intent.ACTION_PICK);
+
+    public void getimgGallery() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
-        startActivityForResult(intent,REQUEST_CODE_GALLERY);
+        startActivityForResult(intent, REQUEST_CODE_GALLERY);
 
 
     }
@@ -133,35 +135,35 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==REQUEST_CODE && resultCode==RESULT_OK && data!=null){
-            Bitmap bitmap= (Bitmap) data.getExtras().get("data");
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             imgSelect.setImageBitmap(bitmap);
 
 
         }
-        if(requestCode==REQUEST_CODE_GALLERY && resultCode==RESULT_OK && data!=null){
-            Uri uri=data.getData();
+        if (requestCode == REQUEST_CODE_GALLERY && resultCode == RESULT_OK && data != null) {
+            Uri uri = data.getData();
             try {
-                InputStream inputStream=getContentResolver().openInputStream(uri);
-                Bitmap bitmap= BitmapFactory.decodeStream(inputStream);
+                InputStream inputStream = getContentResolver().openInputStream(uri);
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
                 imgSelect.setImageBitmap(bitmap);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
         }
     }
-    private void checkPermission(){
-        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA)!=
-                PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.CAMERA},1001);
+
+    private void checkPermission() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA}, 1001);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode==1001){
-            if(grantResults[0]!=PackageManager.PERMISSION_GRANTED ){
+        if (requestCode == 1001) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 checkPermission();
             }
         }
@@ -169,30 +171,30 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_item,menu);
+        getMenuInflater().inflate(R.menu.menu_item, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
             case R.id.mnuAdd:
 
                 try {
-                    SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    String date=edtDate.getText().toString().trim()+" "+edtTime.getText().toString().trim();
-                    Date time=df.parse(date);
-                    BitmapDrawable bitmapDrawable= (BitmapDrawable) imgSelect.getDrawable();
-                    Bitmap bitmap=bitmapDrawable.getBitmap();
-                    newpath=Utils.saveToInternalStorage(bitmap,System.currentTimeMillis()+"",EditNoteActivity.this);
-                    Note noteedit=new Note(newpath,edtContent.getText().toString(),time);
+                    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                    String date = edtDate.getText().toString().trim() + " " + edtTime.getText().toString().trim();
+                    Date time = df.parse(date);
+                    BitmapDrawable bitmapDrawable = (BitmapDrawable) imgSelect.getDrawable();
+                    Bitmap bitmap = bitmapDrawable.getBitmap();
+                    newpath = Utils.saveToInternalStorage(bitmap, System.currentTimeMillis() + "", EditNoteActivity.this);
+                    Note noteedit = new Note(newpath, edtContent.getText().toString(), time);
                     noteedit.setId(note.getId());
                     controller.editNote(noteedit);
-                    Intent intent=new Intent();
-                    setResult(101,intent);
+                    Intent intent = new Intent();
+                    setResult(101, intent);
                     finish();
                 } catch (ParseException e) {
                     e.printStackTrace();
@@ -200,16 +202,15 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
                 return true;
 
 
-
-
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.imgSelect:
-                AlertDialog.Builder builder=new AlertDialog.Builder(EditNoteActivity.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(EditNoteActivity.this);
                 builder.setMessage("What kind of style do you want to select ?");
                 builder.setPositiveButton("Camera", new DialogInterface.OnClickListener() {
                     @Override
@@ -227,7 +228,7 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
 
                     }
                 });
-                AlertDialog alertDialog=builder.create();
+                AlertDialog alertDialog = builder.create();
                 alertDialog.show();
                 break;
             case R.id.imageDelete:
@@ -243,14 +244,15 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
 
         }
     }
+
     public void datePicker() {
         edtDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
-                int mYear = calendar.get(Calendar.YEAR); // current year
-                int mMonth = calendar.get(Calendar.MONTH); // current month
-                int mDay = calendar.get(Calendar.DAY_OF_MONTH); // current day
+                int mYear = calendar.get(Calendar.YEAR);
+                int mMonth = calendar.get(Calendar.MONTH);
+                int mDay = calendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(EditNoteActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -283,13 +285,13 @@ public class EditNoteActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-            @Override
-            public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
+    @Override
+    public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
 
-            }
+    }
 
-            @Override
-            public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
+    @Override
+    public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
 
-            }
-        }
+    }
+}

@@ -142,7 +142,7 @@ public class NoteListActivity extends AppCompatActivity {
                         break;
                     case R.id.nav_lock:
                         String pincode = Utils.getPinCode(NoteListActivity.this);
-                        PinCode.setPinCode(NoteListActivity.this, pincode);
+                        Utils.setPinCode(NoteListActivity.this, pincode);
                         break;
 
                 }

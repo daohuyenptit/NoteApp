@@ -21,12 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-public class SettingActivity extends AppCompatActivity  implements View.OnClickListener ,NavigationView.OnNavigationItemSelectedListener{
+public class SettingActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
     ToggleButton toggleButton;
     EditText edtPin;
-    boolean check=false;
+    boolean check = false;
     public SharedPreferences sharedPreferences;
-    String myShared="Share";
+    String myShared = "Share";
     Toolbar toolbar;
     String pincode;
     DrawerLayout drawerLayout;
@@ -43,17 +43,19 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
         toggleButton.setOnClickListener(SettingActivity.this);
         sharedPreferences = getSharedPreferences(myShared, MODE_PRIVATE);
     }
-    public void addControl(){
-        toggleButton=findViewById(R.id.toggle);
-        toolbar=findViewById(R.id.toobar);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        navigationView=findViewById(R.id.nav_view);
+
+    public void addControl() {
+        toggleButton = findViewById(R.id.toggle);
+        toolbar = findViewById(R.id.toobar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        txtlock=findViewById(R.id.txtlock);
+        txtlock = findViewById(R.id.txtlock);
         txtlock.setOnClickListener(this);
 
 
     }
+
     private void ActionBar() {
         this.setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -62,7 +64,7 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
@@ -72,18 +74,18 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        if(toggleButton.isChecked()){
+        if (toggleButton.isChecked()) {
             setLock();
 
 
-        }else
-            if(!toggleButton.isChecked()){
-            Utils.savePinCode(SettingActivity.this,"savePin","");
+        } else if (!toggleButton.isChecked()) {
+            Utils.savePinCode(SettingActivity.this, "savePin", "");
         }
 
     }
-    public  void setLock(){
-        final AlertDialog.Builder builder=new AlertDialog.Builder(SettingActivity.this);
+
+    public void setLock() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(SettingActivity.this);
         builder.setTitle("Enter PIN code");
         final EditText input = new EditText(SettingActivity.this);
         input.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -95,7 +97,7 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                Utils.savePinCode(SettingActivity.this,"savePin",input.getText().toString());
+                Utils.savePinCode(SettingActivity.this, "savePin", input.getText().toString());
             }
         });
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -104,24 +106,24 @@ public class SettingActivity extends AppCompatActivity  implements View.OnClickL
                 dialogInterface.dismiss();
             }
         });
-        AlertDialog alertDialog=builder.create();
+        AlertDialog alertDialog = builder.create();
         alertDialog.show();
 
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.nav_lock:
-                String pincode=Utils.getPinCode(SettingActivity.this);
-                PinCode.setPinCode(SettingActivity.this,pincode);
+                String pincode = Utils.getPinCode(SettingActivity.this);
+                Utils.setPinCode(SettingActivity.this, pincode);
 
                 break;
             case R.id.nav_home:
-                startActivity(new Intent(this,NoteListActivity.class));
+                startActivity(new Intent(this, NoteListActivity.class));
                 break;
             case R.id.nav_setting:
-                startActivity(new Intent(this,SettingActivity.class));
+                startActivity(new Intent(this, SettingActivity.class));
                 break;
             case R.id.txtlock:
                 setLock();
